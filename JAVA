@@ -1,0 +1,65 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package demo;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import static org.apache.commons.codec.digest.DigestUtils.md5;
+
+/**
+ *
+ * 
+ */
+public class smsGateway {
+
+    public static void main(String[] args) {
+        /*
+        - Id: là message_id là số định danh cho 1 tin nhắn lên của khách hàng (id=0 là tin nhắn test từ hệ thống của VTDD)
+        - Phone: là số điện thoại khách hàng
+        - Shortcode: là đầu số mà khách hàng nhắn lên
+        - Gateway: là định danh cho nhà mạng
+        - Sms: là nội dung tin nhắn của khách hàng nhắn lên. Tin nhắn phải được mã hóa hexa để loại trừ các trường hợp trong tin nhắn có ký tự đặc biệt không gửi qua webservices được.
+        - Checksum: là trường để tăng tính bảo mật cho web services. Hai bên thỏa thuận với nhau 1 key ví dụ “xxxxxxxxxx”. Công thức tính checksum là:
+        - checksum = MD5("xxxxxxxxxx "+Id+Phone+Shortcode+sms) Khi bên VTDD truyền tham số qua, bên ĐỐI TÁC kiểm tra lại xem checksum có hợp lệ không trước khi xử lý
+         */
+        int id = 0;
+        String phone = "";
+        String shortcode = "";
+        String sms = ""; //Tin nhắn phải được mã hóa hexa
+        byte[] checksum = md5("xxxxxxxxxx " + id + phone + shortcode + sms);//trong đó xxxxxxxxxx : Hai bên thỏa thuận với nhau 1 key ví dụ “xxxxxxxxxx”
+        String gateway = "";
+        String link_get = "http://doitac.com/vtddsms/";
+        String content = link_get + "?id=" + id + "&phone=" + phone + "&shortcode=" + shortcode + "&gateway=" + gateway + ""
+                + "&sms=" + sms + "&checksum=" + checksum + "";
+        System.out.println(content);
+        System.out.println(request(content));
+    }
+
+    public static String request(String urlget) {
+        String inputLine = "";
+        try {
+            URL u = new URL(urlget);
+            HttpURLConnection yc = (HttpURLConnection) u.openConnection();
+            yc.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.155 Safari/537.36");
+            yc.setRequestProperty("Accept-Charset", "UTF-8");
+            //yc.setRequestProperty("Accept-Charset", "UTF-8");
+            yc.setConnectTimeout(30 * 1000);
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    yc.getInputStream(), "UTF-8"));
+            inputLine = in.readLine();
+
+        } catch (Exception ex) {
+            System.out.println("Loi: " + ex.getMessage());
+            ex.printStackTrace();
+            inputLine = "-1";
+        } finally {
+            System.out.println(inputLine);
+            return inputLine;
+        }
+    }
+}
