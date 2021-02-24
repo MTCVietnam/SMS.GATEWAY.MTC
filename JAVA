@@ -19,13 +19,13 @@ public class smsGateway {
 
     public static void main(String[] args) {
         /*
-        - Id: là message_id là số định danh cho 1 tin nhắn lên của khách hàng (id=0 là tin nhắn test từ hệ thống của VTDD)
-        - Phone: là số điện thoại khách hàng
-        - Shortcode: là đầu số mà khách hàng nhắn lên
-        - Gateway: là định danh cho nhà mạng
-        - Sms: là nội dung tin nhắn của khách hàng nhắn lên. Tin nhắn phải được mã hóa hexa để loại trừ các trường hợp trong tin nhắn có ký tự đặc biệt không gửi qua webservices được.
-        - Checksum: là trường để tăng tính bảo mật cho web services. Hai bên thỏa thuận với nhau 1 key ví dụ “xxxxxxxxxx”. Công thức tính checksum là:
-        - checksum = MD5("xxxxxxxxxx "+Id+Phone+Shortcode+sms) Khi bên VTDD truyền tham số qua, bên ĐỐI TÁC kiểm tra lại xem checksum có hợp lệ không trước khi xử lý
+        - Id: là message_id là số định danh cho 1 tin nhắn lên của khách hàng (id=0 là tin nhắn test từ hệ thống của VTDD) (is message_id is the identifier for a customer message (id = 0 is the test message from VTDD's system))
+        - Phone: là số điện thoại khách hàng (is the customer phone number)
+        - Shortcode: là đầu số mà khách hàng nhắn lên (is the number that the customer message)
+        - Gateway: là định danh cho nhà mạng (is the identifier for the operator)
+        - Sms: là nội dung tin nhắn của khách hàng nhắn lên. Tin nhắn phải được mã hóa hexa để loại trừ các trường hợp trong tin nhắn có ký tự đặc biệt không gửi qua webservices được. (is the content of a customer's message. The message must be hexadecoded to exclude the cases in which the special character message cannot be sent through webservices.)
+        - Checksum: là trường để tăng tính bảo mật cho web services. Hai bên thỏa thuận với nhau 1 key ví dụ “xxxxxxxxxx”. Công thức tính checksum là: (is a field to increase the security of web services. The two parties agree to each other a key for example "xxxxxxxxxx". The formula for calculating the checksum is:)
+        - checksum = MD5("xxxxxxxxxx "+Id+Phone+Shortcode+sms) Khi bên VTDD truyền tham số qua, bên ĐỐI TÁC kiểm tra lại xem checksum có hợp lệ không trước khi xử lý (When VTDD side passes the parameter, PARTNER checks if the checksum is valid before processing.)
          */
         int id = 0;
         String phone = "";
