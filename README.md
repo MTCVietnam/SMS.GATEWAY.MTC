@@ -1,1 +1,0 @@
-# SMS.GATEWAY.MTC
